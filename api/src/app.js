@@ -1,5 +1,7 @@
 const express = require('express');
+// Require credentials
 const credentials = require('./configs/database/credentials.json');
+// Require connection class
 const Connection = require('./configs/database/connection');
 
 class Application {
