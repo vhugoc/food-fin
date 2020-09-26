@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const credentials = require('./configs/database/credentials.json');
 // Require connection class
 const Connection = require('./configs/database/connection');
+// Require router class
+const Router = require('./router');
 
 class Application {
   constructor() {
@@ -16,6 +18,7 @@ class Application {
   start() {
     this.connection.connect();
     this.middlewares();
+    this.routes();
     this.express.listen(process.env.PORT || this.port, () => {
       console.log(`Listening on port ${this.port}`);
     });
@@ -25,6 +28,12 @@ class Application {
   middlewares() {
     this.express.use(express.json());
     this.express.use(morgan('tiny'));
+  }
+
+  // Routes initialization
+  routes() {
+    const router = new Router();
+    this.express.use(router);
   }
 }
 
