@@ -37,6 +37,10 @@ class HandleUser {
       if (!await MainHelper.validate_email(email))
         return { success: false, description: "Invalid email", status: 400 }
 
+      // Check if email exists
+      if (await this.exists(email))
+        return { success: false, description: "User already exists", status: 400 }
+
       // Password encrypt
       const pwd = await MainHelper.encrypt(password);
       
