@@ -2,6 +2,7 @@
 
 const User = require('../../models/User');
 const MainHelper = require('../helpers/MainHelper');
+const DateHelper = require('../helpers/DateHelper');
 
 class HandleUser {
   /**
@@ -63,6 +64,10 @@ class HandleUser {
    */
   async add(name, phone, email, password, subscription_plan_id, expiration_date) {
     try {
+      // Date validation
+      if (!await DateHelper.is_before(expiration_date))
+        return { success: false, description: "Expiration date must be after today", status: 400};
+
       // Email validation
       if (!await MainHelper.validate_email(email))
         return { success: false, description: "Invalid email", status: 400 };
@@ -100,9 +105,11 @@ class HandleUser {
    */
   async delete(id) {
     try {
-      if (!this.exists_by_id(id))
+      // Check if user exists
+      if (!await this.exists_by_id(id))
         return { success: false, description: "User does not exists", status: 400 };
 
+      // Deleting user
       const del = await User.deleteOne({ _id: id });
 
       if (!del)
