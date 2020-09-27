@@ -29,6 +29,11 @@ class DateHelper {
     const response = await dayjs().subtract(amount, unit).format('YYYY-MM-DD hh:mm');
     return response;
   }
+
+  async is_before(date) {
+    const response = await dayjs().isBefore(date);
+    return response;
+  }
 }
 
 module.exports = new DateHelper();
