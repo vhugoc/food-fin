@@ -59,15 +59,10 @@ class HandleUser {
    * @param { string } phone 
    * @param { string } email 
    * @param { string } password 
-   * @param { string } subscription_plan_id 
-   * @param { date } expiration_date 
+   * @param { string } subscription_plan_id
    */
-  async add(name, phone, email, password, subscription_plan_id, expiration_date) {
+  async add(name, phone, email, password, subscription_plan_id) {
     try {
-      // Date validation
-      if (!await DateHelper.is_before(expiration_date))
-        return { success: false, description: "Expiration date must be after today", status: 400};
-
       // Email validation
       if (!await MainHelper.validate_email(email))
         return { success: false, description: "Invalid email", status: 400 };
@@ -78,6 +73,9 @@ class HandleUser {
 
       // Password encrypt
       const pwd = await MainHelper.encrypt(password);
+
+      // Gen expiration date
+      const exp_date = await DateHelper.add(1, 'month');
       
       // Creating user
       const create = await User.create({
@@ -86,7 +84,7 @@ class HandleUser {
         email,
         password: pwd,
         subscription_plan_id,
-        expiration_date
+        expiration_date: exp_date
       });
 
       if (!create)
