@@ -24,6 +24,40 @@ class UserController {
       return response.status(500).json({ success: false, description: error, status: 500 });
     }
   }
+
+  /**
+   * Sign out
+   * @param {*} request 
+   * @param {*} response 
+   * @return { json }
+   */
+  async signout(request, response) {
+    try {
+      await HandleUser.signout(request.user_id);
+      return response.status(200).json({ success: true });
+    } catch(error) {
+      return response.status(500).json({ success: false, description: error, status: 500 });
+    }
+  }
+
+  /**
+   * Show user profile
+   * @param {*} request 
+   * @param {*} response 
+   * @return { json }
+   */
+  async show(request, response) {
+    try {
+      const profile = await HandleUser.profile(request.user_id);
+      if (!profile.success)
+        return response.status(profile.status).json({ success: false, description: profile.description });
+
+      return response.status(profile.status).json({ success: true, user: profile.user });
+      
+    } catch(error) {
+      return response.status(500).json({ success: false, description: error, status: 500 });
+    }
+  }
   
   /**
    * Register an user

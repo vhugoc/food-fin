@@ -53,6 +53,29 @@ class HandleUser {
     }
   }
 
+  /**
+   * Show user profile
+   * @param { string } id 
+   */
+  async profile(id) {
+    try {
+      const user = await User.findById(id);
+      if (!user)
+        return { success: false, description: "Invalid ID", status: 400 };
+
+      return { success: true, user, status: 200 };
+
+    } catch(error) {
+      return { error: true, description: error, status: 500 };
+    }
+  }
+
+  /**
+   * Authenticate an user
+   * @param { string } email 
+   * @param { string } password 
+   * @param { string } type 
+   */
   async signin(email, password, type = 'user') {
     try {
       if (!email || !password)
@@ -75,9 +98,29 @@ class HandleUser {
       // Generate token
       const token = await MainHelper.generate_token(user._id);
 
+      user.status = true;
+      await user.save();
+
       user.password = undefined;
 
       return { success: true, user, token, status: 200 };
+
+    } catch(error) {
+      return { error: true, description: error, status: 500 };
+    }
+  }
+
+  /**
+   * Sign out
+   * @param { string } id 
+   */
+  async signout(id) {
+    try {
+      const profile = await this.profile(id);
+      if (profile.success) {
+        profile.user.status = false;
+        await profile.user.save();
+      }
 
     } catch(error) {
       return { error: true, description: error, status: 500 };
