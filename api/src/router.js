@@ -12,6 +12,7 @@ class Router {
     });
 
     /** User Routes */
+    this.router.post('/signin', UserController.signin);
     this.router.post('/users', UserController.create);
     
     return this.router;

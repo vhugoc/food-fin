@@ -52,6 +52,37 @@ class HandleUser {
       return { error: true, description: error, status: 500 };
     }
   }
+
+  async signin(email, password, type = 'user') {
+    try {
+      if (!email || !password)
+        return { success: false, description: "Empty data", status: 400 };
+
+      // Find user by email
+      const user = await User.findOne({ email });
+
+      if (!user)
+        return { success: false, description: "User does not exists", status: 400 };
+
+      // Password verification
+      if (!await MainHelper.compare_encrypt(password, user.password))
+        return { success: false, description: "Incorrect password", status: 400 };
+
+      // Check user expiration date
+      if (!await DateHelper.is_before(user.expiration_date))
+        return { success: false, description: "Expired user" }
+
+      // Generate token
+      const token = await MainHelper.generate_token(user._id);
+
+      user.password = undefined;
+
+      return { success: true, user, token, status: 200 };
+
+    } catch(error) {
+      return { error: true, description: error, status: 500 };
+    }
+  }
   
   /**
    * Create an user

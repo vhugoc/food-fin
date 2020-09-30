@@ -31,6 +31,15 @@ class MainHelper {
     const response = await bcrypt.compare(string, hash);
     return response;
   }
+
+  async generate_token(id) {
+    const jwt = require('jsonwebtoken');
+    const { secret } = require('../../configs/auth/auth.json');
+    const response = await jwt.sign({ id: id }, secret, {
+      expiresIn: 86400 * 7
+    });
+    return response;
+  }
 }
 
 module.exports = new MainHelper();

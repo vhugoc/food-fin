@@ -3,6 +3,34 @@
 const HandleUser = require('../services/user/HandleUser');
 
 class UserController {
+  /**
+   * Authenticate an user
+   * @param {*} request 
+   * @param {*} response 
+   * @return { json }
+   */
+  async signin(request, response) {
+    try {
+      const { email, password, type } = request.body;
+
+      const auth = await HandleUser.signin(email, password, type);
+
+      if (!auth.success)
+        return response.status(auth.status).json({ success: false, description: auth.description });
+
+      return response.status(200).json(auth);
+
+    } catch(error) {
+      return response.status(500).json({ success: false, description: error, status: 500 });
+    }
+  }
+  
+  /**
+   * Register an user
+   * @param {*} request 
+   * @param {*} response 
+   * @return { json }
+   */
   async create(request, response) {
     try {
       const { name, phone, email, password, subscription_plan_id } = request.body;
