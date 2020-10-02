@@ -91,6 +91,10 @@ class HandleUser {
       if (!await MainHelper.compare_encrypt(password, user.password))
         return { success: false, description: "Incorrect password", status: 400 };
 
+      // Check if user is active
+      if (!user.is_active)
+        return { success: false, description: "User is not active", status: 400 };
+
       // Check user expiration date
       if (!await DateHelper.is_before(user.expiration_date))
         return { success: false, description: "Expired user" }

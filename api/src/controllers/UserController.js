@@ -87,6 +87,22 @@ class UserController {
       return response.status(500).json({ success: false, description: error, status: 500 });
     }
   }
+  
+  async delete(request, response) {
+    try {
+      const user_id = request.user_id;
+
+      const del = await HandleUser.delete(user_id);
+
+      if (!del.success)
+        return response.status(del.status).json({ success: false, description: del.description });
+
+      return response.status(del.status).json({ success: true });
+
+    } catch(error) {
+      return response.status(500).json({ success: false, description: error, status: 500 });
+    }
+  }
 }
 
 module.exports = new UserController();

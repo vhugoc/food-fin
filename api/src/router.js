@@ -15,6 +15,7 @@ class Router {
     this.router.post('/signout', authMiddleware, UserController.signout);
     this.router.get('/users', authMiddleware, UserController.show);
     this.router.post('/users', UserController.create);
+    this.router.delete('/users', authMiddleware, UserController.delete);
     
     return this.router;
   }
