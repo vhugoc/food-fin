@@ -13,7 +13,6 @@ class HandleUser {
   async exists(email = null, id = null) {
     try {
       let exists;
-
       if (!id) {
         exists = await User.findOne({ email: email });
       } else {
