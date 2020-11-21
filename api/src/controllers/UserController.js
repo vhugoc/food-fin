@@ -21,6 +21,7 @@ class UserController {
       return response.status(200).json(auth);
 
     } catch(error) {
+      console.log(error);
       return response.status(500).json({ success: false, description: error, status: 500 });
     }
   }

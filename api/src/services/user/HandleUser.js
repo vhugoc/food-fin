@@ -96,7 +96,7 @@ class HandleUser {
 
       // Check user expiration date
       if (!await DateHelper.is_before(user.expiration_date))
-        return { success: false, description: "Expired user" }
+        return { success: false, description: "Expired user", status: 400 }
 
       // Generate token
       const token = await MainHelper.generate_token(user._id);
