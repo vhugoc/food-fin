@@ -15,7 +15,7 @@ class HandleDepartment {
 
   /**
    * Find one or all departments
-   * @param { String } id 
+   * @param { string } id 
    */
   async find(id) {
     try {
@@ -60,6 +60,11 @@ class HandleDepartment {
     }
   }
 
+  /**
+   * Add a department
+   * @param { string } name 
+   * @param { integer } access 
+   */
   async add(name, access) {
     try {
       // Check if department exists

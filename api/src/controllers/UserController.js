@@ -88,6 +88,12 @@ class UserController {
     }
   }
   
+  /**
+   * Delete an account
+   * @param {*} request 
+   * @param {*} response 
+   * @return { json }
+   */
   async delete(request, response) {
     try {
       const user_id = request.user_id;
