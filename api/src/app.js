@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 // Require credentials
 const credentials = require('./configs/database/credentials.json');
 // Require connection class
@@ -28,6 +29,7 @@ class Application {
   middlewares() {
     this.express.use(express.json());
     this.express.use(morgan('tiny'));
+    this.express.use(cors());
   }
 
   // Routes initialization
