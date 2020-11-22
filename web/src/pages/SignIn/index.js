@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 function SignIn() {
+
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [remember, setRemember] = useState(true);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      alert("Campos em branco");
+    } else {
+      alert("OK");
+    }
+
+  }
+
   return (
     <Container fluid>
       <div className="form-container">
@@ -16,13 +32,33 @@ function SignIn() {
                 <span>Preencha os campos abaixo para fazer a autenticação <span className="d-md-none d-sm-block">ou crie uma conta gratuita agora mesmo</span></span>
               </div>
               <Form.Group>
-                <Form.Control type="email" placeholder="Digite seu e-mail" />
+                <Form.Control
+                  type="email" 
+                  placeholder="Digite seu e-mail"
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); }}
+                />
               </Form.Group>
 
               <Form.Group>
-                <Form.Control type="password" placeholder="Digite sua senha" />
+                <Form.Control
+                  type="password"
+                  placeholder="Digite sua senha"
+                  value={password}
+                  onChange={(e) => { setPassword(e.target.value); }}
+                />
               </Form.Group>
-              <Button variant="primary" className="btn-block btn-lg" type="submit">
+
+              <Form.Group className="float-left">
+                <Form.Check
+                  type="checkbox"
+                  checked={remember}
+                  label="Lembre-se de mim"
+                  onChange={() => { setRemember(!remember) }}
+                />
+              </Form.Group>
+
+              <Button variant="primary" className="btn-block btn-lg" type="submit" onClick={handleSubmit}>
                 Entrar
               </Button>
             </Form>

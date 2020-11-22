@@ -37,7 +37,7 @@ input.form-control {
   background-color: #695CCD;
   border-color: #695CCD;
 }
-.btn-primary:active, .btn-primary:target {
+.btn-primary:active, .btn-primary:target, .btn-primary:focus {
   background-color: #483f91!important;
   border-color: #483f91!important;
   box-shadow: 0px 0px 5px #483f91!important;
