@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+textarea:focus, 
+textarea.form-control:focus, 
+input.form-control:focus, 
+input[type=text]:focus, 
+input[type=password]:focus, 
+input[type=email]:focus, 
+input[type=number]:focus, 
+[type=text].form-control:focus, 
+[type=password].form-control:focus, 
+[type=email].form-control:focus, 
+[type=tel].form-control:focus, 
+[contenteditable].form-control:focus {
+  box-shadow: none;
+  border-color: #8476F5;
+}
+input.form-control {
+  padding: 25px 10px;
+}
+
+.btn:focus {
+  box-shadow: none!important;
+}
+
+.btn-primary {
+  background-color: #8476F5;
+  border-color: #8476F5;
+}
+.btn-primary:hover {
+  background-color: #695CCD;
+  border-color: #695CCD;
+}
+.btn-primary:active, .btn-primary:target {
+  background-color: #483f91!important;
+  border-color: #483f91!important;
+  box-shadow: 0px 0px 5px #483f91!important;
+}
+
+.btn-white {
+  background-color: #fff;
+  color: #8476F5;
+}
+.btn-white:hover {
+  background-color: #f4f4f4;
+  color: #8476F5;
+}
+
+.form-container {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  max-width: 900px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 18px rgba(0, 0, 0, .25);
+}
+
+.form-container form {
+  padding: 100px 50px 150px 50px;
+  text-align: center;
+}
+
+.form-container .form-title {
+  padding-bottom: 30px;
+}
+
+.form-container .form-title h1 {
+  font-size: 30px;
+  color: #695CCD;
+}
+.form-container .form-title span {
+  font-size: 15px;
+  color: rgb(146, 146, 146);
+}
+
+.form-container .form-message {
+  position: relative;
+  padding: 0px;
+  background: rgb(105,92,205);
+  background: linear-gradient(144deg, rgba(105,92,205,1) 75%, rgba(105,92,205,1) 86%, rgba(132,118,245,1) 100%);
+  color: #fff;
+  text-align: center;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.form-message div {
+  position: absolute;
+  width: 80%;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form-message h2 {
+  font-size: 23px;
+  font-weight: 600;
+  padding-bottom: 10px;
+}
+.form-message p {
+  font-size: 12px;
+  padding-bottom: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+  .form-message {
+    display: none;
+  }
+}
