@@ -1,22 +1,41 @@
 import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+
+import api from '../../services/api';
+
+import { login } from '../../services/auth';
 
 function SignIn() {
 
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const history = useHistory();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Campos em branco");
+      toast.error('Preencha todos os campos necessários');
     } else {
-      alert("OK");
+      try {
+        const response = await api.post('/signin', {
+          email,
+          password
+        });
+
+        login(response.data.token);
+        history.push('/');
+
+      } catch(error) {
+        const description = error.response.data.description;
+        toast.error(description);
+      }
     }
 
   }
