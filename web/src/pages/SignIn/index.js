@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Link, useHistory } from 'react-router-dom';
 
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 import api from '../../services/api';
@@ -16,12 +16,15 @@ function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!email || !password) {
       toast.error('Preencha todos os campos necessários');
+      setIsLoading(false);
     } else {
       try {
         const response = await api.post('/signin', {
@@ -35,6 +38,7 @@ function SignIn() {
       } catch(error) {
         const description = error.response.data.description;
         toast.error(description);
+        setIsLoading(false);
       }
     }
 
@@ -77,8 +81,11 @@ function SignIn() {
                 />
               </Form.Group>
 
-              <Button variant="primary" className="btn-block btn-lg" type="submit" onClick={handleSubmit}>
-                Entrar
+              <Button variant="primary" className="btn-block btn-lg" type="submit" disabled={isLoading} onClick={handleSubmit}>
+                {isLoading
+                  ? <Spinner className="button-spinner" as="span" size="sm" animation="border" role="status" aria-hidden="true"/>
+                  : 'Entrar'
+                }
               </Button>
             </Form>
           </Col>

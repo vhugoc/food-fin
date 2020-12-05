@@ -35,13 +35,17 @@ input.form-control {
   box-shadow: none!important;
 }
 
-.btn-primary {
+.btn-primary, .btn-primary:disabled {
   background-color: #8476F5;
   border-color: #8476F5;
 }
 .btn-primary:hover {
   background-color: #695CCD;
   border-color: #695CCD;
+}
+.btn-primary:disabled:hover {
+  background-color: #8476F5;
+  border-color: #8476F5;
 }
 .btn-primary:active, .btn-primary:target, .btn-primary:focus {
   background-color: #483f91!important;
@@ -56,6 +60,10 @@ input.form-control {
 .btn-white:hover {
   background-color: #f4f4f4;
   color: #8476F5;
+}
+
+.button-spinner {
+  vertical-align: middle;
 }
 
 .form-container {
