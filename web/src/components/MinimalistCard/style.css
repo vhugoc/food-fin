@@ -1,0 +1,23 @@
+.minimalist-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  min-height: 100px;
+}
+
+.minimalist-card .card-title {
+  font-size: 14px;
+}
+
+.minimalist-card .card-text {
+  font-size:11px;
+  color: #858585;
+}
+
+.minimalist-card .card-value {
+  position: absolute;
+  font-size: 15px;
+  font-weight: 500;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
