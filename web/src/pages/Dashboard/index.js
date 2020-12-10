@@ -24,7 +24,7 @@ function Dashboard() {
     yaxis: {
       labels: {
         formatter: function (value) {
-          return `R$ ${value}`;
+          return `R$${value}`;
         }
       },
     },
