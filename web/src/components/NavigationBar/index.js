@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 
@@ -20,13 +20,15 @@ function NavigationBar() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link>Dashboard</Nav.Link>
+          <Nav.Link><Link to="/">Dashboard</Link></Nav.Link>
           <Nav.Link>Clientes</Nav.Link>
-          <Nav.Link>Colaboradores</Nav.Link>
+          <Nav.Link><Link to="/departamentos">Departamentos</Link></Nav.Link>
           <Nav.Link>Produtos</Nav.Link>
         </Nav>
         <Nav>
-          <Button variant="primary" className="mr-4">Caixa</Button>
+          <Button variant="primary" className="mr-4">
+            Caixa
+          </Button>
           <NavDropdown title="Victor Hugo" id="collasible-nav-dropdown">
             <NavDropdown.Item>Conta</NavDropdown.Item>
             <NavDropdown.Item>Configurações</NavDropdown.Item>

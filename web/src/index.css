@@ -66,6 +66,59 @@ input.form-control {
   vertical-align: middle;
 }
 
+.badge {
+  padding: 6px 10px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.badge.badge-primary {
+  background-color: #e0dcff;
+  color: #695CCD;
+}
+
+.badge.badge-secondary {
+  background-color: rgb(218, 218, 218);
+  color: #161616;
+}
+
+.badge.badge-info {
+  background-color: #d9f0f0;
+  color: #1CA2B8;
+}
+
+/* DATATABLE */
+.datatable-container .card {
+  border: none;
+}
+
+.datatable-container .search {
+  padding: 5px 10px;
+}
+
+.datatable-container thead th {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #7a7a7a;
+  border: none;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.datatable-container tbody td {
+  padding: 14px 0px 14px 20px;
+  font-size: 13px;
+  color: #4a4a4a;
+  transition: all .15s;
+  cursor: pointer;
+}
+
+.datatable-container tbody tr:hover td {
+  background-color: #f5f5f5;
+}
+
+/* FORM */
 .form-container {
   display: block;
   margin: 0 auto;

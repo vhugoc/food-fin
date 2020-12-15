@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
+import Departments from './pages/Departments';
 
 import { isAuthenticated } from './services/auth';
 
@@ -40,6 +41,7 @@ function Routes() {
         <PublicRoute path="/login" component={SignIn} />
         <PublicRoute path="/registro" component={SignUp} />
         <PrivateRoute path="/" exact component={Dashboard} />
+        <PrivateRoute path="/departamentos" exact component={Departments} />
       </Switch>
     </BrowserRouter>
   );
