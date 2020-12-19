@@ -13,6 +13,9 @@ html, body {
 }
 
 textarea:focus, 
+select:hover,
+select:active,
+select:focus,
 textarea.form-control:focus, 
 input.form-control:focus, 
 input[type=text]:focus, 
@@ -180,4 +183,50 @@ input.form-control {
   .form-message {
     display: none;
   }
+}
+
+/* MODALS */
+.modal-container {
+  padding: 30px 30px 10px 30px;
+  text-align: center;
+}
+
+.modal-container .heading {
+  border-bottom: 1px solid #ccc;
+}
+
+.modal-container .heading h2 {
+  font-size: 22px;
+  color: #4a4a4a;
+}
+
+.modal-container .heading p {
+  font-size: 11px;
+  color: #8b8b8b;
+  font-weight: 400;
+}
+
+.modal-container .body {
+  padding: 30px 0px;
+}
+
+.modal-container .body form {
+  text-align: left;
+}
+
+.modal-container .body form label {
+  font-size: 13px;
+  color: #3a3a3a;
+}
+.modal-container .body form input {
+  padding: 3px 10px;
+}
+
+.modal-container .footer {
+  padding: 20px 0px;
+  border-top: 1px solid #ccc;
+  text-align: center;
+}
+.modal-container .footer button {
+  margin: 0px 5px;
 }
