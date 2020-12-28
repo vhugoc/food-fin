@@ -3,6 +3,8 @@ import { useHistory, Link } from 'react-router-dom';
 
 import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 
+import Logo from '../../assets/img/logo.png';
+
 import './style.css';
 
 function NavigationBar() {
@@ -16,7 +18,7 @@ function NavigationBar() {
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-      <Navbar.Brand>Logo</Navbar.Brand>
+      <Navbar.Brand><img src={Logo} width="40" /></Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">

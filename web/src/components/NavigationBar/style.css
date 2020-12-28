@@ -3,11 +3,15 @@ nav {
 }
 
 .navbar {
-  padding: 20px 60px;
+  padding: 10px 60px;
 }
 
 .navbar-light {
   background-color: #fff!important;
+}
+
+.navbar-light .navbar-brand {
+  margin-right: 40px;
 }
 
 .navbar-light .navbar-nav .nav-link {

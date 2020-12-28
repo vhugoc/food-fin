@@ -3,14 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Table, Modal, ButtonGroup } from 'react-bootstrap';
 
 import { FiPlus } from 'react-icons/fi';
-
+import { toast } from 'react-toastify';
 import './style.css';
 
 import Navbar from '../../components/NavigationBar';
 import PageTitle from '../../components/PageTitle';
 
+import ArrayHelper from '../../services/helpers/array.js';
+
 function Departments() {
 
+  const [selectedId, setSelectedId] = useState();
   const [name, setName] = useState();
   const [access, setAccess] = useState();
   const [isActive, setIsActive] = useState(true);
@@ -40,21 +43,52 @@ function Departments() {
 
   useEffect(() => {
     handleFilter(filterTerm);
-  }, [filterTerm]);
+  }, [filterTerm, departmentList]);
 
   const handleClose = () => setShowDepartmentModal(false);
   const handleShow = () => setShowDepartmentModal(true);
+
+  const clearFields = () => {
+    setSelectedId(null);
+    setName('');
+    setAccess('-1');
+    setIsActive(true);
+  }
   
-  function handleFilter(departmentName) {
+  const handleFilter = (departmentName) => {
     const filtereds = departmentList.filter((department) => {
       return department.name.toLowerCase().includes(departmentName.toLowerCase());
     });
     setFilteredDepartments(filtereds);
   }
 
+  const handleOpenModal = () => {
+    clearFields();
+    handleShow();
+  }
+
+  const handleSelect = (id) => {
+    const selectedDepartment = ArrayHelper.getElementById(id, departmentList);
+    setSelectedId(selectedDepartment.id);
+    setName(selectedDepartment.name);
+    setAccess(selectedDepartment.access);
+    setIsActive(selectedDepartment.is_active);
+    handleShow();
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Name: ${name} - Nível: ${access} - Ativo: ${isActive}`);
+    if (!selectedId) {
+      const temporaryId = (Math.random() * 1000).toFixed();
+      setDepartmentList(departmentList => [...departmentList, {
+        id: temporaryId,
+        name: name,
+        access: access,
+        is_active: isActive
+      }]);
+      toast.success("Departamento criado com sucesso!");
+      handleClose();
+    }
   }
 
   return (
@@ -74,7 +108,7 @@ function Departments() {
                   <Form.Control className="search" type="text" placeholder="Pesquisar..." onChange={(e) => {setFilterTerm(e.target.value)}}></Form.Control>
                 </Col>
                 <Col sm={8}>
-                  <Button variant="primary" size="sm" className="float-right" onClick={handleShow}><FiPlus /> Adicionar Departamento</Button>
+                  <Button variant="primary" size="sm" className="float-right" onClick={handleOpenModal}><FiPlus /> Adicionar Departamento</Button>
                 </Col>
               </Row>
               <Row>
@@ -88,7 +122,7 @@ function Departments() {
                     </thead>
                     <tbody>
                       { filteredDepartments.map(department => (
-                        <tr key={department.id}>
+                        <tr key={department.id} onClick={() => handleSelect(department.id)}>
                           <td>
                             {department.name}
                             <span className={`data-status text-${department.is_active ? 'success' : 'danger'} d-block`}>Departamento {department.is_active ? 'Ativo' : 'Inativo'}</span>
@@ -110,7 +144,7 @@ function Departments() {
         <div className="modal-container">
           <div className="heading">
             <h2>Departamentos</h2>
-            <p>Lorem ipsum dolor sit amet</p>
+            <p>Gerencie os departamentos para anexá-los aos colaboradores</p>
           </div>
 
           <div className="body">
@@ -118,15 +152,26 @@ function Departments() {
               <Form.Row>
                 <Form.Group as={Col}>
                   <Form.Label>Nome</Form.Label>
-                  <Form.Control type="text" required placeholder="Nome do departamento" onChange={(e) => { setName(e.target.value); }} />
+                  <Form.Control
+                    type="text"
+                    required
+                    placeholder="Nome do departamento"
+                    value={name}
+                    onChange={(e) => { setName(e.target.value); }}
+                  />
                 </Form.Group>
 
                 <Form.Group as={Col}>
                   <Form.Label>Nível de acesso</Form.Label>
-                  <Form.Control as="select" defaultValue="Escolha..." onChange={(e) => {
-                    setAccess(e.target.value);
-                  }}>
-                    <option value="-1">Escolha o nível...</option>
+                  <Form.Control
+                    as="select"
+                    defaultValue="Escolha o nível"
+                    value={access}
+                    onChange={(e) => {
+                      setAccess(e.target.value);
+                    }}
+                  >
+                    <option value="-1">Escolha o nível</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
