@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Container, Row, Col, Card, Form, Button, Table, Modal, ButtonGroup } from 'react-bootstrap';
 
@@ -15,10 +15,42 @@ function Departments() {
   const [access, setAccess] = useState();
   const [isActive, setIsActive] = useState(true);
 
+  const [departmentList, setDepartmentList] = useState([{
+    id: 1,
+    name: "Caixa",
+    access: 1,
+    is_active: true
+  },
+  {
+    id: 2,
+    name: "Motoboy",
+    access: 2,
+    is_active: false
+  },
+  {
+    id: 3,
+    name: "Garçom",
+    access: 3,
+    is_active: true
+  }]);
+  const [filteredDepartments, setFilteredDepartments] = useState([]);
+  const [filterTerm, setFilterTerm] = useState("");
+
   const [showDepartmentModal, setShowDepartmentModal] = useState(false);
+
+  useEffect(() => {
+    handleFilter(filterTerm);
+  }, [filterTerm]);
 
   const handleClose = () => setShowDepartmentModal(false);
   const handleShow = () => setShowDepartmentModal(true);
+  
+  function handleFilter(departmentName) {
+    const filtereds = departmentList.filter((department) => {
+      return department.name.toLowerCase().includes(departmentName.toLowerCase());
+    });
+    setFilteredDepartments(filtereds);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +71,7 @@ function Departments() {
             <Card className="pb-3">
               <Row className="p-2">
                 <Col sm={4}>
-                  <Form.Control className="search" type="text" placeholder="Pesquisar..."></Form.Control>
+                  <Form.Control className="search" type="text" placeholder="Pesquisar..." onChange={(e) => {setFilterTerm(e.target.value)}}></Form.Control>
                 </Col>
                 <Col sm={8}>
                   <Button variant="primary" size="sm" className="float-right" onClick={handleShow}><FiPlus /> Adicionar Departamento</Button>
@@ -52,34 +84,20 @@ function Departments() {
                       <tr>
                         <th>Nome do departamento</th>
                         <th>Nível de Acesso</th>
-                        <th>Descrição</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          Caixa
-                          <span className="data-status text-success d-block">Departamento Ativo</span>
-                        </td>
-                        <td><span class="badge badge-primary">Nível 1</span></td>
-                        <td>Departamento para os caixas</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Motoboy
-                          <span className="data-status text-danger d-block">Departamento Inativo</span>
-                        </td>
-                        <td><span class="badge badge-secondary">Nível 2</span></td>
-                        <td>Departamento para os motoboys</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Garçom
-                          <span className="data-status text-success d-block">Departamento Ativo</span>
-                        </td>
-                        <td><span class="badge badge-info">Nível 3</span></td>
-                        <td>Departamento para os garçons</td>
-                      </tr>
+                      { filteredDepartments.map(department => (
+                        <tr key={department.id}>
+                          <td>
+                            {department.name}
+                            <span className={`data-status text-${department.is_active ? 'success' : 'danger'} d-block`}>Departamento {department.is_active ? 'Ativo' : 'Inativo'}</span>
+                          </td>
+                          <td>
+                            <span className="badge badge-primary">Nível {department.access}</span>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </Table>
                 </Col>
@@ -100,12 +118,12 @@ function Departments() {
               <Form.Row>
                 <Form.Group as={Col}>
                   <Form.Label>Nome</Form.Label>
-                  <Form.Control type="text" placeholder="Nome do departamento" onChange={(e) => { setName(e.target.value); }} />
+                  <Form.Control type="text" required placeholder="Nome do departamento" onChange={(e) => { setName(e.target.value); }} />
                 </Form.Group>
 
                 <Form.Group as={Col}>
                   <Form.Label>Nível de acesso</Form.Label>
-                  <Form.Control as="select" defaultValue="Choose..." onChange={(e) => {
+                  <Form.Control as="select" defaultValue="Escolha..." onChange={(e) => {
                     setAccess(e.target.value);
                   }}>
                     <option value="-1">Escolha o nível...</option>
