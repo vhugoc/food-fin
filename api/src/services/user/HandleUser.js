@@ -5,11 +5,7 @@ const MainHelper = require('../helpers/MainHelper');
 const DateHelper = require('../helpers/DateHelper');
 
 class HandleUser {
-  /**
-   * Checks if an user exists
-   * @param { string } email 
-   * @param { string } id user id
-   */
+
   async exists(email = null, id = null) {
     try {
       let exists;
@@ -34,10 +30,6 @@ class HandleUser {
     }
   }
 
-  /**
-   * Check if an user exists by id
-   * @param { string } id 
-   */
   async exists_by_id(id) {
     try {
       const exists = await User.findById(id);
@@ -52,10 +44,6 @@ class HandleUser {
     }
   }
 
-  /**
-   * Show user profile
-   * @param { string } id 
-   */
   async profile(id) {
     try {
       const user = await User.findById(id);
@@ -69,36 +57,25 @@ class HandleUser {
     }
   }
 
-  /**
-   * Authenticate an user
-   * @param { string } email 
-   * @param { string } password 
-   * @param { string } type 
-   */
   async signin(email, password, type = 'user') {
     try {
       if (!email || !password)
         return { success: false, description: "Empty data", status: 400 };
 
-      // Find user by email
       const user = await User.findOne({ email });
 
       if (!user)
         return { success: false, description: "User does not exists", status: 400 };
 
-      // Password verification
       if (!await MainHelper.compare_encrypt(password, user.password))
         return { success: false, description: "Incorrect password", status: 400 };
 
-      // Check if user is active
       if (!user.is_active)
         return { success: false, description: "User is not active", status: 400 };
 
-      // Check user expiration date
       if (!await DateHelper.is_before(user.expiration_date))
         return { success: false, description: "Expired user", status: 400 }
 
-      // Generate token
       const token = await MainHelper.generate_token(user._id);
 
       user.status = true;
@@ -113,10 +90,6 @@ class HandleUser {
     }
   }
 
-  /**
-   * Sign out
-   * @param { string } id 
-   */
   async signout(id) {
     try {
       const profile = await this.profile(id);
@@ -130,31 +103,16 @@ class HandleUser {
     }
   }
   
-  /**
-   * Create an user
-   * @param { string } name 
-   * @param { string } phone 
-   * @param { string } email 
-   * @param { string } password 
-   * @param { string } subscription_plan_id
-   */
   async add(name, phone, email, password, subscription_plan_id) {
     try {
-      // Email validation
       if (!await MainHelper.validate_email(email))
         return { success: false, description: "Invalid email", status: 400 };
 
-      // Check if email exists
       if (await this.exists(email))
         return { success: false, description: "User already exists", status: 400 };
 
-      // Password encrypt
       const pwd = await MainHelper.encrypt(password);
-
-      // Gen expiration date
       const exp_date = await DateHelper.add(1, 'month');
-      
-      // Creating user
       const create = await User.create({
         name,
         phone,
@@ -174,17 +132,11 @@ class HandleUser {
     }
   }
 
-  /**
-   * Delete an user by id
-   * @param { string } id 
-   */
   async delete(id) {
     try {
-      // Check if user exists
       if (!await this.exists_by_id(id))
         return { success: false, description: "User does not exists", status: 400 };
 
-      // Deleting user
       const del = await User.deleteOne({ _id: id });
 
       if (!del)

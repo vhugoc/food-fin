@@ -3,12 +3,7 @@
 const HandleUser = require('../services/user/HandleUser');
 
 class UserController {
-  /**
-   * Authenticate an user
-   * @param {*} request 
-   * @param {*} response 
-   * @return { json }
-   */
+
   async signin(request, response) {
     try {
       const { email, password, type } = request.body;
@@ -25,12 +20,6 @@ class UserController {
     }
   }
 
-  /**
-   * Sign out
-   * @param {*} request 
-   * @param {*} response 
-   * @return { json }
-   */
   async signout(request, response) {
     try {
       await HandleUser.signout(request.user_id);
@@ -40,12 +29,6 @@ class UserController {
     }
   }
 
-  /**
-   * Show user profile
-   * @param {*} request 
-   * @param {*} response 
-   * @return { json }
-   */
   async show(request, response) {
     try {
       const profile = await HandleUser.profile(request.user_id);
@@ -59,24 +42,14 @@ class UserController {
     }
   }
   
-  /**
-   * Register an user
-   * @param {*} request 
-   * @param {*} response 
-   * @return { json }
-   */
   async create(request, response) {
     try {
       const { name, phone, email, password, subscription_plan_id } = request.body;
 
-      // Check empty data
       if (!name || !phone || !email || !password || !subscription_plan_id)
         return response.status(400).json({ success: false, description: "Empty data" });
 
-      // Register user
       const register = await HandleUser.add(name, phone, email, password, subscription_plan_id);
-
-      // return response.json(register);
 
       if (!register.success)
         return response.status(register.status).json({ success: false, description: register.description });
@@ -88,12 +61,6 @@ class UserController {
     }
   }
   
-  /**
-   * Delete an account
-   * @param {*} request 
-   * @param {*} response 
-   * @return { json }
-   */
   async delete(request, response) {
     try {
       const user_id = request.user_id;

@@ -5,18 +5,10 @@ const User = require('../../models/User');
 
 class HandleDepartment {
 
-  /**
-   * Constructor method
-   * @param { string } user_id 
-   */
   constructor(user_id) {
     this.user_id = user_id;
   }
 
-  /**
-   * Find one or all departments
-   * @param { string } id 
-   */
   async find(id) {
     try {
       let department;
@@ -31,10 +23,6 @@ class HandleDepartment {
     }
   }
 
-  /**
-   * Check if a department exists
-   * @param { string } name 
-   */
   async exists(name = null, id = null) {
     try {
       let exists;
@@ -60,14 +48,8 @@ class HandleDepartment {
     }
   }
 
-  /**
-   * Add a department
-   * @param { string } name 
-   * @param { integer } access 
-   */
   async add(name, access) {
     try {
-      // Check if department exists
       if (await this.exists(name))
         return { success: false, description: "Department already exists", status: 400 };
 
